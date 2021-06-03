@@ -33,13 +33,7 @@ defmodule BeerSong do
   """
   @spec lyrics(Range.t()) :: String.t()
   def lyrics(range \\ 99..0) do
-    first..last//step = range
-
-    if first == last do
-      BeerSong.verse(first)
-    else
-      IO.inspect(BeerSong.verse(first))
-      BeerSong.lyrics(first-1..last//step)
-    end
+    range
+    |> Enum.map_join("\n", &verse/1)
   end
 end

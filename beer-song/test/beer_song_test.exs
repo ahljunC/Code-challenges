@@ -55,7 +55,7 @@ defmodule BeerSongTest do
              """
     end
 
-    @tag :pending
+    # @tag :pending
     test "last three verses" do
       assert BeerSong.lyrics(2..0) == """
              2 bottles of beer on the wall, 2 bottles of beer.
@@ -69,7 +69,7 @@ defmodule BeerSongTest do
              """
     end
 
-    @tag :pending
+    # @tag :pending
     test "all verses" do
       assert BeerSong.lyrics() == """
              99 bottles of beer on the wall, 99 bottles of beer.

@@ -29,7 +29,7 @@ defmodule HammingTest do
   test "hamming distance is undefined for strands of different lengths" do
     assert {:error, "Lists must be the same length"} =
              Hamming.hamming_distance('AAAC', 'TAGGGGAGGCTAGCGGTAGGAC')
-
+    
     assert {:error, "Lists must be the same length"} =
              Hamming.hamming_distance('GACTACGGACAGGACACC', 'GACATCGC')
   end
