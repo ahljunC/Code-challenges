@@ -19,21 +19,21 @@ defmodule SpaceAge do
 
     case planet do
       :mercury ->
-        seconds / (0.2408467 / earth_year_secs)
+        (seconds / earth_year_secs) / 0.2408467
       :venus ->
-        seconds / (0.61519726 / earth_year_secs)
+        (seconds / earth_year_secs) / 0.61519726
       :earth ->
         seconds / earth_year_secs
       :mars ->
-        seconds / (1.8808158 / earth_year_secs)
+        (seconds / earth_year_secs) / 1.8808158
       :jupiter ->
-        seconds / (11.862615 / earth_year_secs)
+        (seconds / earth_year_secs) / 11.862615
       :saturn ->
-        seconds / (29.447498 / earth_year_secs)
+        (seconds / earth_year_secs) / 29.447498
       :uranus ->
-        seconds / (84.016846 / earth_year_secs)
+        (seconds / earth_year_secs) / 84.016846
       :neptune ->
-        seconds / (164.79132 / earth_year_secs)
+        (seconds / earth_year_secs) / 164.79132
     end
   end
 end
