@@ -8,14 +8,12 @@ defmodule RotationalCipher do
   """
   @chars_upper ?A..?Z
   @chars_lower ?a..?z
-  @chars_number ?0..?9
 
   @spec rotate(text :: String.t(), shift :: integer) :: String.t()
   def rotate(text, shift) do
 
     String.to_charlist(text)
     |> Enum.reduce([], fn char, acc ->
-      # IO.inspect(char)
       acc ++ [char_shift(char, shift)]
     end)
     |> List.to_string()
