@@ -16,7 +16,6 @@ defmodule ProteinTranslation do
   @spec of_rna(String.t()) :: {atom, list(String.t())}
   def of_rna(rna) do
     translate = String.codepoints(rna)
-    |> IO.inspect()
     |> Enum.chunk_every(3)
     |> Enum.map(&Enum.join/1)
     |> Enum.reduce_while([], fn codon, acc ->
@@ -31,6 +30,15 @@ defmodule ProteinTranslation do
         acc ++ [codon]
       end)}
     end
+
+    # |> Enum.find(fn {status, codon} ->
+    #   case {status, codon} do
+    #     {:error, _condon} -> {:error, "invalid RNA"}
+    #     {:ok, _condon} ->
+
+    #   end
+    # end)
+
   end
 
   @doc """
@@ -56,10 +64,17 @@ defmodule ProteinTranslation do
   """
   @spec of_codon(String.t()) :: {atom, String.t()}
   def of_codon(codon) do
-    if Map.has_key?(@codon_protein_map, codon) do
-      {:ok, Map.get(@codon_protein_map, codon)}
-    else
-      {:error, "invalid codon"}
+    # if Map.has_key?(@codon_protein_map, codon) do
+    #   {:ok, Map.get(@codon_protein_map, codon)}
+    # else
+    #   {:error, "invalid codon"}
+    # end
+
+    cond do
+      Map.has_key?(@codon_protein_map, codon) ->
+        {:ok, Map.get(@codon_protein_map, codon)}
+      true ->
+        {:error, "invalid codon"}
     end
   end
 end
