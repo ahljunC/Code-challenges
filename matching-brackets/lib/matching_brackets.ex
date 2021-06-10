@@ -4,6 +4,6 @@ defmodule MatchingBrackets do
   """
   @spec check_brackets(String.t()) :: boolean
   def check_brackets(str) do
-    
-  end
+    String.to_charlist(str)
+  end   
 end

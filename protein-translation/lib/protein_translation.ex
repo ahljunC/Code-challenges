@@ -18,30 +18,32 @@ defmodule ProteinTranslation do
     translate = String.codepoints(rna)
     |> Enum.chunk_every(3)
     |> Enum.map(&Enum.join/1)
-    |> Enum.reduce_while([], fn codon, acc ->
-      {status, message} = of_codon(codon)
-      if message !== "STOP", do: {:cont, acc ++ [{status, message}]}, else: {:halt, acc}
-    end)
+    |> Enum.map(&get_codon_name/1)
 
-    if Enum.find(translate, fn {status, _codon} -> status == :error end) do
-      {:error, "invalid RNA"}
-    else
-      {:ok, Enum.reduce(translate, [], fn {_status, codon}, acc ->
-        acc ++ [codon]
-      end)}
+    case is_valid_rna?(translate) do
+      :error -> {:error, "invalid RNA"}
+      :ok -> {:ok, get_codon_list(translate)}
     end
+  end
 
-    # |> Enum.find(fn {status, codon} ->
-    #   case {status, codon} do
-    #     {:error, _} -> {:error, "invalid RNA"}
-    #     _ -> {:ok, Enum.reduce([], fn {_status, codon}, acc ->
-    #       acc ++[codon]
-    #     end)
-    #   }
+  def get_codon_list(codon_list) do
+    codon_list
+    |> Enum.reduce_while([], fn codon, acc ->
+      if codon !== "STOP", do: {:cont, acc ++ [codon]}, else: {:halt, acc}
+    end)
+  end
 
-    #   end
-    # end)
+  def get_codon_name(codon) do
+    Map.get(@codon_protein_map, codon)
+  end
 
+  def is_valid_rna?(codon_list) do
+    validate = Enum.find_value(codon_list, fn codon -> codon == nil end)
+
+    case validate do
+      true -> :error
+      _ -> :ok
+    end
   end
 
   @doc """
@@ -67,12 +69,6 @@ defmodule ProteinTranslation do
   """
   @spec of_codon(String.t()) :: {atom, String.t()}
   def of_codon(codon) do
-    # if Map.has_key?(@codon_protein_map, codon) do
-    #   {:ok, Map.get(@codon_protein_map, codon)}
-    # else
-    #   {:error, "invalid codon"}
-    # end
-
     cond do
       Map.has_key?(@codon_protein_map, codon) ->
         {:ok, Map.get(@codon_protein_map, codon)}
