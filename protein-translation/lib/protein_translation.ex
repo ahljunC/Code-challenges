@@ -33,8 +33,11 @@ defmodule ProteinTranslation do
 
     # |> Enum.find(fn {status, codon} ->
     #   case {status, codon} do
-    #     {:error, _condon} -> {:error, "invalid RNA"}
-    #     {:ok, _condon} ->
+    #     {:error, _} -> {:error, "invalid RNA"}
+    #     _ -> {:ok, Enum.reduce([], fn {_status, codon}, acc ->
+    #       acc ++[codon]
+    #     end)
+    #   }
 
     #   end
     # end)
