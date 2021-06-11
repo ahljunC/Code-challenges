@@ -5,5 +5,7 @@ defmodule MatchingBrackets do
   @spec check_brackets(String.t()) :: boolean
   def check_brackets(str) do
     String.to_charlist(str)
-  end   
+    |> Enum.reduce()
+    end)
+  end
 end
