@@ -18,8 +18,10 @@ defmodule PigLatin do
   """
   @spec translate(phrase :: String.t()) :: String.t()
   def translate(phrase) do
-    String.to_charlist(phrase)
-    |> pig_check()
+    String.split(phrase)
+    |> Enum.map(&String.to_charlist/1)
+    |> Enum.map(&pig_check/1)
+    |> Enum.join(" ")
   end
 
   defp pig_check([head | _tail] = phrase) when head in @vowel_list do
@@ -27,13 +29,23 @@ defmodule PigLatin do
     |> List.to_string()
   end
 
-  defp pig_check([first, second | _tail] = phrase) when first == ?x and second == ?r do
+  defp pig_check([first, second | _tail] = phrase) when first == ?x and second not in @vowel_list do
     phrase ++ [?a, ?y]
     |> List.to_string()
   end
 
-  defp pig_check([first, second | _tail] = phrase) when first == ?y and second == ?t do
+  defp pig_check([first, second | _tail] = phrase) when first == ?y and second not in @vowel_list do
     phrase ++ [?a, ?y]
+    |> List.to_string()
+  end
+
+  defp pig_check([first, second | tail]) when first == ?q and second == ?u do
+    tail ++ [first, second, ?a, ?y]
+    |> List.to_string()
+  end
+
+  defp pig_check([first, second, third | tail]) when first not in @vowel_list and second == ?q and third == ?u do
+    tail ++ [first, second, third, ?a, ?y]
     |> List.to_string()
   end
 
@@ -42,18 +54,9 @@ defmodule PigLatin do
       if char not in @vowel_list, do: {:cont, acc ++ [char]}, else: {:halt, acc}
     end)
 
-    # tail ++ head ++ [?a, ?y]
-    # |> List.to_string()
+    tail = phrase -- head
 
+    tail ++ head ++ [?a, ?y]
+    |> List.to_string()
   end
-
-  # defp pig_check([first, second | tail]) when first not in @vowel_list and second not in @vowel_list do
-  #   tail ++ [first] ++ [second] ++ [?a, ?y]
-  #   |> List.to_string()
-  # end
-
-  # defp pig_check([head | tail]) do
-  #   tail ++ [head] ++ [?a, ?y]
-  #   |> List.to_string()
-  # end
 end
