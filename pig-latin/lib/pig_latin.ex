@@ -24,17 +24,17 @@ defmodule PigLatin do
     |> Enum.join(" ")
   end
 
-  defp pig_check([head | _tail] = phrase) when head in @vowel_list do
+  defp pig_check([head | _] = phrase) when head in @vowel_list do
     phrase ++ [?a, ?y]
     |> List.to_string()
   end
 
-  defp pig_check([first, second | _tail] = phrase) when first == ?x and second not in @vowel_list do
+  defp pig_check([first, second | _] = phrase) when first == ?x and second not in @vowel_list do
     phrase ++ [?a, ?y]
     |> List.to_string()
   end
 
-  defp pig_check([first, second | _tail] = phrase) when first == ?y and second not in @vowel_list do
+  defp pig_check([first, second | _] = phrase) when first == ?y and second not in @vowel_list do
     phrase ++ [?a, ?y]
     |> List.to_string()
   end
